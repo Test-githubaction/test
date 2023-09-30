@@ -26,6 +26,6 @@ jobs:
     steps:
       - name: Check branch convention
         env:
-          PULL_REQUEST_NAME: $GITHUB_REF_NAME
+          PULL_REQUEST_NAME: ${{ github.ref_name }}
         run: |
           echo $PULL_REQUEST_NAME
