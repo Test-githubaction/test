@@ -7,10 +7,20 @@ on:
 
 jobs:
   title_naming_convention:
-    name: Check title naming convention
+    name: Check naming convention
     runs-on: ubuntu-latest
     steps:
-      - name: Check title convention
+      - name: Check branch name convention
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+            if [[ "$BRANCH" =~ ^(feat|fix|hotfix|chore)\/[[:alnum:][:space:]]+$ ]]
+            then
+              echo "Pull request branch name is following the convention" && exit 0
+            else
+              echo "Pull request branch name is not following the convention" && exit 1
+            fi
+      - name: Check title name convention
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |
@@ -20,12 +30,3 @@ jobs:
             else
               echo "Pull request title is not following the convention" && exit 1
             fi
-  branch_naming_convention:
-    name: Check branch naming convention
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check branch convention
-        env:
-          PULL_REQUEST_NAME: ${{ github.ref_name }}
-        run: |
-          echo $PULL_REQUEST_NAME
