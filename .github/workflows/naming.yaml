@@ -1,25 +1,27 @@
 name: Naming convention for pull request
 on:
   pull_request:
-    branches:
-      - '*' 
+    branches-ignore:
+      - 'master'
+      - 'development'
+      - 'staging'
     types: [edited, reopened, ready_for_review, synchronize, opened]
 
 jobs:
   checker:
     runs-on: ubuntu-latest
     steps:
-      - name: Check branch name convention
+      - name: Validate branch
         env:
           BRANCH: ${{ github.event.pull_request.head.ref }}
         run: |
-            if [[ "$BRANCH" =~ ^(feat|fix|hotfix|chore)\/[[:alnum:][:space:]]+$ ]]
+            if [[ "$BRANCH" =~ ^(feat|fix|hotfix|chore)\/[[:alnum:]_@.-]+$ ]]
             then
               echo "Pull request branch name is following the convention" && exit 0
             else
               echo "Pull request branch name is not following the convention" && exit 1
             fi
-      - name: Check title name convention
+      - name: Validate title
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |
