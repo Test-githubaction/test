@@ -1,17 +1,13 @@
-name: Naming convention checker
+name: Naming convention for pull request
 on:
   pull_request:
     branches:
       - '*' 
-    types: [edited, reopened, ready_for_review, opened]
-  push:
-    branches:
-      - '*'
+    types: [edited, reopened, ready_for_review, synchronize, opened]
 
 jobs:
   title_naming_convention:
     name: Check title naming convention
-    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - name: Check title convention
@@ -24,3 +20,12 @@ jobs:
             else
               echo "Pull request title is not following the convention" && exit 1
             fi
+  branch_naming_convention:
+    name: Check branch naming convention
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch convention
+        env:
+          PULL_REQUEST_NAME: ${{ GITHUB_REF_NAME }}
+        run: |
+          echo $PULL_REQUEST_NAME
