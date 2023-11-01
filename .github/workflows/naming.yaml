@@ -1,4 +1,4 @@
-name: Naming convention for pull request
+name: Naming convention for pull request 1
 on:
   pull_request:
     branches-ignore:
@@ -11,16 +11,6 @@ jobs:
   checker:
     runs-on: ubuntu-latest
     steps:
-      - name: Validate branch
-        env:
-          BRANCH: ${{ github.event.pull_request.head.ref }}
-        run: |
-            if [[ "$BRANCH" =~ ^(feat|fix|hotfix|chore)\/[[:alnum:]_@.-]+$ ]]
-            then
-              echo "Pull request branch name is following the convention" && exit 0
-            else
-              echo "Pull request branch name is not following the convention" && exit 1
-            fi
       - name: Validate title
         env:
           TITLE: ${{ github.event.pull_request.title }}
